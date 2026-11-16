@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# UniMak Campus Study Hub
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project contains the existing React/Vite frontend and a Python/FastAPI backend in `backend\`. The backend connects to Supabase Auth, PostgreSQL, and private Storage.
 
-## Available Scripts
+## Run the frontend
 
-In the project directory, you can run:
+```powershell
+npm install
+$env:VITE_API_URL="http://localhost:8000"
+npm run dev
+```
 
-### `npm start`
+The frontend API uses `VITE_API_URL` (defaults to `http://localhost:8000`). Authentication, profile updates, bookmarks, uploads, downloads, and catalogue data require the backend and configured Supabase project.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Build for production with:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```powershell
+npm run build
+```
 
-### `npm test`
+## Run the backend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Follow [backend/README.md](./backend/README.md). In brief:
 
-### `npm run build`
+```powershell
+Set-Location C:\campus-study-hub\backend
+.\.venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Before using the API, set backend-only Supabase keys in `backend\.env` and run [`backend/supabase/schema.sql`](./backend/supabase/schema.sql) in the Supabase SQL Editor. Swagger docs: `http://localhost:8000/docs`; health: `http://localhost:8000/health`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Main structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `src/pages`, `src/components`: React UI
+- `src/api/client.js`: Axios HTTP client for the FastAPI API
+- `src/auth/AuthContext.jsx`: authentication and profile state
+- `src/library`: resource and bookmark state
+- `public/images`: frontend image assets
+- `backend/app`: FastAPI application and endpoints
+- `backend/supabase/schema.sql`: PostgreSQL tables, triggers, RLS and Storage setup
